@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Servicio de la app Host
   host:
     build:
       context: ./apps/host
@@ -16,10 +15,9 @@ services:
     depends_on:
       - db
 
-  # Servicio de la app Quicksearch
   quicksearch:
     build:
-      context: ./apps/quicksearch
+      context: ./apps/quicksearch 
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=production
@@ -31,7 +29,6 @@ services:
     depends_on:
       - db
 
-  # Servicio para Airflow Webserver
   airflow-webserver:
     image: apache/airflow:2.3.0
     restart: always
@@ -46,10 +43,9 @@ services:
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
     ports:
-      - "8080:8080"
+      - "8082:8080"
     command: webserver
 
-  # Servicio para Airflow Scheduler
   airflow-scheduler:
     image: apache/airflow:2.3.0
     restart: always
@@ -65,7 +61,6 @@ services:
       - ./plugins:/opt/airflow/plugins
     command: scheduler
 
-  # Servicio para inicializar Airflow
   airflow-init:
     image: apache/airflow:2.3.0
     restart: on-failure
@@ -82,7 +77,6 @@ services:
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
 
-  # Servicio de la base de datos PostgreSQL para Airflow
   db:
     image: postgres:13
     restart: always
